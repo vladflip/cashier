@@ -33,12 +33,14 @@ class Checkout
     /**
      * Get the View instance for the button.
      *
+     * @param  string  $label
      * @param  array  $options
      * @return \Illuminate\Contracts\View\View
      */
-    public function button(array $options = [])
+    public function button($label = 'Checkout', array $options = [])
     {
         return View::make('cashier::checkout', array_merge($options, [
+            'label' => $label,
             'stripeKey' => Cashier::stripeKey(),
             'sessionId' => $this->session->id,
         ]));

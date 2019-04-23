@@ -4,7 +4,7 @@
     id="checkout-{{ $sessionId }}"
     role="link"
 >
-    Checkout
+    {{ $label }}
 </button>
 
 <div id="error-message"></div>
