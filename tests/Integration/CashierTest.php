@@ -630,6 +630,33 @@ class CashierTest extends TestCase
         $this->assertEquals('test@laravel.com', $customer->email);
     }
 
+    public function test_update_stripe_customer_source()
+    {
+        $user = User::create([
+            'email' => 'taylor@laravel.com',
+            'name' => 'Taylor Otwell',
+        ]);
+
+        $user->createAsStripeCustomer();
+
+        // add a default card
+        $user->updateCard($this->getTestToken());
+
+        // change the default card
+        $token = Token::create([
+            'card' => [
+                'number' => '5555555555554444',
+                'exp_month' => 7,
+                'exp_year' => date('Y') + 2,
+                'cvc' => '456',
+            ],
+        ]);
+        $customer = $user->updateSource();
+
+        $this->assertEquals(1, $customer->sources->total_count);
+        $this->assertEquals($token->card->id, $customer->default_source);
+    }
+
     protected function getTestToken()
     {
         return Token::create([

@@ -426,6 +426,19 @@ trait Billable
     }
 
     /**
+     * Update customer's default source.
+     *
+     * @param string $token
+     * @return StripeCustomer
+     */
+    public function updateSource($token)
+    {
+        return $this->updateStripeCustomer([
+            'source' => $token
+        ]);
+    }
+
+    /**
      * Synchronises the customer's card from Stripe back into the database.
      *
      * @return $this
